@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>IraStore - Toko Elektronik Online</title>
+</head>
+<body>
+    <div class="slider-container">
+        <!-- Cart Panel (Tersembunyi) -->
+        <div class="cart-panel">
+            <div class="cart-header">
+                <h3>🛒 Keranjang Belanja</h3>
+                <button class="close-cart">✕</button>
+            </div>
+            <div class="cart-items">
+                <!-- Item akan ditambahkan via JavaScript -->
+            </div>
+            <div class="cart-summary">
+                <div class="cart-total">
+                    <span>Total:</span>
+                    <span class="total-amount">Rp 0</span>
+                </div>
+                <button class="btn checkout-btn">💳 Checkout</button>
+                <button class="btn continue-btn">🛍️ Lanjut Belanja</button>
+            </div>
+        </div>
+
+        <!-- Modal Pembayaran -->
+        <div class="payment-modal">
+            <div class="payment-container">
+                <div class="payment-header">
+                    <h3>💳 Pembayaran</h3>
+                    <button class="close-payment">✕</button>
+                </div>
+                <div class="payment-content">
+                    <div class="payment-info">
+                        <div class="product-payment-info">
+                            <div class="payment-product-image">📱</div>
+                            <div>
+                                <h4 id="payment-product-name">Smartphone X Pro</h4>
+                                <p id="payment-product-price">Rp 8.999.000</p>
+                            </div>
+                        </div>
+                        
+                        <form id="paymentForm">
+                            <div class="form-group">
+                                <label for="payment-name">Nama Lengkap</label>
+                                <input type="text" id="payment-name" placeholder="Masukkan nama lengkap" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="payment-email">Email</label>
+                                <input type="email" id="payment-email" placeholder="email@contoh.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="payment-phone">Nomor Telepon</label>
+                                <input type="tel" id="payment-phone" placeholder="0812-3456-7890" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="payment-method">Metode Pembayaran</label>
+                                <select id="payment-method" required>
+                                    <option value="">Pilih metode</option>
+                                    <option value="transfer">Transfer Bank</option>
+                                    <option value="credit-card">Kartu Kredit</option>
+                                    <option value="e-wallet">E-Wallet (OVO/Gopay/DANA)</option>
+                                    <option value="cod">COD (Bayar di Tempat)</option>
+                                </select>
+                            </div>
+                            <div class="form-group" id="bank-details" style="display: none;">
+                                <label>Transfer ke Bank:</label>
+                                <div class="bank-options">
+                                    <div class="bank-option">
+                                        <input type="radio" id="bca" name="bank" value="bca">
+                                        <label for="bca">BCA: 123-456-7890 (IraStore)</label>
+                                    </div>
+                                    <div class="bank-option">
+                                        <input type="radio" id="mandiri" name="bank" value="mandiri">
+                                        <label for="mandiri">Mandiri: 098-765-4321 (IraStore)</label>
+                                    </div>
+                                    <div class="bank-option">
+                                        <input type="radio" id="bni" name="bank" value="bni">
+                                        <label for="bni">BNI: 567-890-1234 (IraStore)</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="payment-summary">
+                                <div class="summary-item">
+                                    <span>Subtotal:</span>
+                                    <span id="subtotal">Rp 0</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Ongkos Kirim:</span>
+                                    <span id="shipping">Rp 15.000</span>
+                                </div>
+                                <div class="summary-item total">
+                                    <span>Total Pembayaran:</span>
+                                    <span id="total-payment">Rp 0</span>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="btn submit-payment">💳 Bayar Sekarang</button>
+                            <button type="button" class="btn cancel-payment">❌ Batalkan</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="payment-overlay"></div>
+        </div>
+
+        <!-- Slide Indicator -->
+        <div class="slide-indicator">
+            <span class="slide-counter">HALAMAN <span id="currentSlide">1</span> / <span id="totalSlides">5</span></span>
+        </div>
+
+        <!-- Header -->
+        <header>
+            <nav>
+                <div class="logo">
+                    <h2>🛒 Irastore</h2>
+                    <p class="logo-tagline">Toko Elektronik Terpercaya</p>
+                </div>
+                <div class="nav-controls">
+                    <button id="prevBtn" class="nav-btn">← Sebelumnya</button>
+                    <button id="nextBtn" class="nav-btn">Selanjutnya →</button>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Slides Wrapper -->
+        <div class="slides-wrapper">
+            <!-- Halaman ke 1 - BERANDA -->
+            <div class="slide active" data-slide="1">
+                <section class="hero">
+                    <div class="hero-content">
+                        <h1 class="animated-title">Selamat Datang di IraStore!</h1>
+                        <p>Platform belanja Barang Elektronik terbesar dengan harga terbaik dan garansi resmi</p>
+                        <button class="btn hero-btn theme-btn" data-slide="1">🔄 Ubah Tema</button>
+                    </div>
+                </section>
+                <section class="content">
+                    <div class="container">
+                        <h2>🔥 Produk Terlaris Minggu Ini</h2>
+                        <div class="cards-container">
+                            <div class="product-card">
+                                <div class="product-badge">Terlaris</div>
+                                <div class="product-image">📱</div>
+                                <h3>Smartphone X Pro</h3>
+                                <p class="product-desc">RAM 8GB, Kamera 108MP, Baterai 5000mAh</p>
+                                <div class="product-price">
+                                    <span class="current-price">Rp 8.999.000</span>
+                                    <span class="discount">-15%</span>
+                                </div>
+                                <button class="btn product-btn buy-now-btn" 
+                                        data-name="Smartphone X Pro" 
+                                        data-price="8999000"
+                                        data-image="📱">🛒 Beli Sekarang</button>
+                            </div>
+                            <div class="product-card">
+                                <div class="product-badge">Promo</div>
+                                <div class="product-image">💻</div>
+                                <h3>Laptop Gaming</h3>
+                                <p class="product-desc">RTX 4060, i9-13650HX, 1TB RAM, 1TB SSD</p>
+                                <div class="product-price">
+                                    <span class="current-price">Rp 18.500.000</span>
+                                    <span class="original-price">Rp 21.999.000</span>
+                                </div>
+                                <button class="btn product-btn buy-now-btn" 
+                                        data-name="Laptop Gaming" 
+                                        data-price="18500000"
+                                        data-image="💻">🛒 Beli Sekarang</button>
+                            </div>
+                            <div class="product-card">
+                                <div class="product-badge">Baru</div>
+                                <div class="product-image">🎧</div>
+                                <h3>Wireless Apple Headphone</h3>
+                                <p class="product-desc">Noise Reduction, Clear air, Baterai 30 jam, Bluetooth 5.3</p>
+                                <div class="product-price">
+                                    <span class="current-price">Rp 1.299.000</span>
+                                    <span class="discount">-20%</span>
+                                </div>
+                                <button class="btn product-btn buy-now-btn" 
+                                        data-name="Wireless Apple Headphone" 
+                                        data-price="1299000"
+                                        data-image="🎧">🛒 Beli Sekarang</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Halaman Ke 2 - PRODUK -->
+            <div class="slide" data-slide="2">
+                <section class="hero hero-slide2">
+                    <div class="hero-content">
+                        <h1 class="animated-title">Koleksi Produk Lengkap</h1>
+                        <p>Temukan berbagai produk elektronik berkualitas dengan harga murah</p>
+                        <button class="btn hero-btn theme-btn" data-slide="2">🎨 Ganti Warna</button>
+                    </div>
+                </section>
+                <section class="content">
+                    <div class="container">
+                        <h2>📱 Kategori Produk</h2>
+                        <div class="categories">
+                            <div class="category-card">
+                                <div class="category-icon">📱</div>
+                                <h3>Smartphone</h3>
+                                <p>100+ produk dari berbagai brand</p>
+                            </div>
+                            <div class="category-card">
+                                <div class="category-icon">💻</div>
+                                <h3>Laptop & PC</h3>
+                                <p>Gaming, Office, dan Creative</p>
+                            </div>
+                            <div class="category-card">
+                                <div class="category-icon">📺</div>
+                                <h3>TV & Monitor</h3>
+                                <p>4K, OLED, dan Smart TV</p>
+                            </div>
+                            <div class="category-card">
+                                <div class="category-icon">🎮</div>
+                                <h3>Gaming</h3>
+                                <p>Console, Controller, Aksesoris</p>
+                            </div>
+                        </div>
+
+                        <h2 class="section-title">💎 Produk Pilihan</h2>
+                        <div class="product-grid">
+                            <div class="product-item">
+                                <div class="product-img">⌚</div>
+                                <h4>Smart Watch Pro</h4>
+                                <p class="product-price">Rp 2.499.000</p>
+                                <div class="product-rating">★★★★★ (4.8)</div>
+                                <button class="btn small-btn buy-now-btn" 
+                                        data-name="Smart Watch Pro" 
+                                        data-price="2499000"
+                                        data-image="⌚">🛒 Beli Sekarang</button>
+                            </div>
+                            <div class="product-item">
+                                <div class="product-img">🔌</div>
+                                <h4>Power Bank 20.000mAh</h4>
+                                <p class="product-price">Rp 349.000</p>
+                                <div class="product-rating">★★★★☆ (4.3)</div>
+                                <button class="btn small-btn buy-now-btn" 
+                                        data-name="Power Bank 20.000mAh" 
+                                        data-price="349000"
+                                        data-image="🔌">🛒 Beli Sekarang</button>
+                            </div>
+                            <div class="product-item">
+                                <div class="product-img">🖨️</div>
+                                <h4>Printer Wireless</h4>
+                                <p class="product-price">Rp 1.899.000</p>
+                                <div class="product-rating">★★★★★ (4.9)</div>
+                                <button class="btn small-btn buy-now-btn" 
+                                        data-name="Printer Wireless" 
+                                        data-price="1899000"
+                                        data-image="🖨️">🛒 Beli Sekarang</button>
+                            </div>
+                            <div class="product-item">
+                                <div class="product-img">🎮</div>
+                                <h4>Game Controller</h4>
+                                <p class="product-price">Rp 799.000</p>
+                                <div class="product-rating">★★★★☆ (4.2)</div>
+                                <button class="btn small-btn buy-now-btn" 
+                                        data-name="Game Controller" 
+                                        data-price="799000"
+                                        data-image="🎮">🛒 Beli Sekarang</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Halaman ke 3 - KALKULATOR dan PROMO -->
+            <div class="slide" data-slide="3">
+                <section class="hero hero-slide3">
+                    <div class="hero-content">
+                        <h1 class="animated-title">Kalkulator & Promo Spesial</h1>
+                        <p>Hitung cicilan dan dapatkan promo menarik setiap hari</p>
+                        <button class="btn hero-btn theme-btn" data-slide="3">✨ Ubah Tema</button>
+                    </div>
+                </section>
+                <section class="content">
+                    <div class="container">
+                        <div class="two-column">
+                            <div class="column">
+                                <h2>🧮 Kalkulator Cicilan</h2>
+                                <div class="calculator">
+                                    <div class="input-group">
+                                        <label for="harga">Harga Produk (Rp)</label>
+                                        <input type="number" id="harga" placeholder="Contoh: 5000000" value="5000000" min="100000">
+                                    </div>
+                                    <div class="input-group">
+                                        <label for="dp">Uang Muka (%)</label>
+                                        <input type="number" id="dp" placeholder="Contoh: 20" value="20" min="0" max="100">
+                                        <div class="range-container">
+                                            <input type="range" id="dpRange" min="0" max="100" value="20">
+                                            <span id="dpValue">20%</span>
+                                        </div>
+                                    </div>
+                                    <div class="input-group">
+                                        <label for="tenor">Tenor (Bulan)</label>
+                                        <select id="tenor">
+                                            <option value="3">3 Bulan (Bunga 1%)</option>
+                                            <option value="6" selected>6 Bulan (Bunga 1.5%)</option>
+                                            <option value="12">12 Bulan (Bunga 2%)</option>
+                                            <option value="24">24 Bulan (Bunga 2.5%)</option>
+                                        </select>
+                                    </div>
+                                    <button class="btn" id="calculateBtn">Hitung Cicilan</button>
+                                    <div id="result" class="result">
+                                        <div class="result-item">
+                                            <span>Uang Muka:</span>
+                                            <strong>Rp 0</strong>
+                                        </div>
+                                        <div class="result-item">
+                                            <span>Sisa Pinjaman:</span>
+                                            <strong>Rp 0</strong>
+                                        </div>
+                                        <div class="result-item">
+                                            <span>Total Bunga:</span>
+                                            <strong>Rp 0</strong>
+                                        </div>
+                                        <div class="result-item">
+                                            <span>Total Pembiayaan:</span>
+                                            <strong>Rp 0</strong>
+                                        </div>
+                                        <div class="result-item total">
+                                            <span>Cicilan per Bulan:</span>
+                                            <strong class="cicilan-bulan">Rp 0</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column">
+                                <h2>🎁 Promo Hari Ini</h2>
+                                <div class="promo-card">
+                                    <div class="promo-header">
+                                        <span class="promo-badge">COMING SOON</span>
+                                        <h3>Flash Sale</h3>
+                                    </div>
+                                    <p>⏰ Sedang dalam pengembangan</p>
+                                    <p>✅ Akan hadir dalam waktu dekat</p>
+                                    <p>✅ Diskon hingga 50%</p>
+                                    <button class="btn promo-btn" disabled>🔒 Segera Hadir</button>
+                                </div>
+                                <div class="voucher-section">
+                                    <h3>🎫 Kode Voucher Aktif</h3>
+                                    <div class="voucher">
+                                        <code>WELCOME50</code>
+                                        <span>Diskon 50K min. belanja 500K</span>
+                                        <button class="copy-btn" data-code="WELCOME50">📋</button>
+                                    </div>
+                                    <div class="voucher">
+                                        <code>GADGET30</code>
+                                        <span>Diskon 30% produk gadget</span>
+                                        <button class="copy-btn" data-code="GADGET30">📋</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Halaman 4 - TESTI -->
+            <div class="slide" data-slide="4">
+                <section class="hero hero-slide4">
+                    <div class="hero-content">
+                        <h1 class="animated-title">Testimoni Pelanggan[Visual]</h1>
+                        <p>Lihat pengalaman belanja pelanggan kami yang puas</p>
+                        <button class="btn hero-btn theme-btn" data-slide="4">🌈 Acak Warna</button>
+                    </div>
+                </section>
+                <section class="content">
+                    <div class="container">
+                        <h2>⭐ Ulasan Pelanggan</h2>
+                        <div class="testimonials">
+                            <div class="testimonial-card">
+                                <div class="testimonial-header">
+                                    <div class="avatar">👨‍💼</div>
+                                    <div>
+                                        <h4>Budi Santoso</h4>
+                                        <div class="rating">★★★★★</div>
+                                    </div>
+                                </div>
+                                <p>"Produk original, pengiriman cepat, dan packing rapi. Sangat recommended!"</p>
+                                <span class="date">2 hari yang lalu</span>
+                            </div>
+                            <div class="testimonial-card">
+                                <div class="testimonial-header">
+                                    <div class="avatar">👩‍💻</div>
+                                    <div>
+                                        <h4>Sari Dewi</h4>
+                                        <div class="rating">★★★★☆</div>
+                                    </div>
+                                </div>
+                                <p>"Garansi resmi 2 tahun, ada gratis ongkir juga.  I'll buy again!"</p>
+                                <span class="date">1 minggu yang lalu</span>
+                            </div>
+                            <div class="testimonial-card">
+                                <div class="testimonial-header">
+                                    <div class="avatar">👨‍🎓</div>
+                                    <div>
+                                        <h4>Rizky Pratama</h4>
+                                        <div class="rating">★★★★★</div>
+                                    </div>
+                                </div>
+                                <p>"Customer Service responsif, Tidak Lelet, dan cepat banget, bantu solve masalah dengan cepat."</p>
+                                <span class="date">2 minggu yang lalu</span>
+                            </div>
+                        </div>
+
+                        <h2 class="section-title">📊 Statistik Toko</h2>
+                        <div class="stats">
+                            <div class="stat-item">
+                                <div class="stat-number">10.000+</div>
+                                <div class="stat-label">Produk Terjual</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">4.8/5</div>
+                                <div class="stat-label">Rating Pelanggan</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">98%</div>
+                                <div class="stat-label">Kepuasan Pelanggan</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">24/7</div>
+                                <div class="stat-label">Customer Service</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- SLIDE 5 - KONTAK -->
+            <div class="slide" data-slide="5">
+                <section class="hero hero-slide5">
+                    <div class="hero-content">
+                        <h1 class="animated-title">Hubungi Kami</h1>
+                        <p>Kami siap membantu Anda 24/7</p>
+                        <button class="btn hero-btn theme-btn" data-slide="5">🎉 Mode Perayaan</button>
+                    </div>
+                </section>
+                <section class="content">
+                    <div class="container">
+                        <div class="two-column">
+                            <div class="column">
+                                <h2>📞 Kontak & Informasi</h2>
+                                <div class="contact-info">
+                                    <div class="contact-item">
+                                        <div class="contact-icon">📞</div>
+                                        <div>
+                                            <h4>Telepon</h4>
+                                            <p>+62 815-8543-5466 (Gratis)</p>
+                                            <p>08:00 - 22:00 WIB</p>
+                                        </div>
+                                    </div>
+                                    <div class="contact-item">
+                                        <div class="contact-icon">📧</div>
+                                        <div>
+                                            <h4>Email</h4>
+                                            <p>Email -</p>
+                                            <p>cs@ -</p>
+                                        </div>
+                                    </div>
+                                    <div class="contact-item">
+                                        <div class="contact-icon">🏪</div>
+                                        <div>
+                                            <h4>Alamat</h4>
+                                            <p>Alamat -</p>
+                                            <p>Jakarta, Indonesia</p>
+                                        </div>
+                                    </div>
+                                    <div class="contact-item">
+                                        <div class="contact-icon">🕒</div>
+                                        <div>
+                                            <h4>Jam Operasional</h4>
+                                            <p>Senin - Minggu</p>
+                                            <p>24/7 </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column">
+                                <h2>💬 Formulir Kontak[Visual]</h2>
+                                <form class="contact-form" id="contactForm">
+                                    <div class="form-group">
+                                        <label for="name">Nama Lengkap</label>
+                                        <input type="text" id="name" placeholder="Masukkan nama Anda" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">Email</label>
+                                        <input type="email" id="email" placeholder="email@contoh.com" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="subject">Subjek</label>
+                                        <input type="text" id="subject" placeholder="Subjek pesan" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="message">Pesan</label>
+                                        <textarea id="message" placeholder="Tulis pesan Anda..." rows="4" required></textarea>
+                                    </div>
+                                    <button type="submit" class="btn submit-btn">📨 Kirim Pesan</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="thank-you">
+                            <h3>Terima Kasih Telah Mengunjungi IraStore!</h3>
+                            <p>"Teknologi Terbaik untuk Kebutuhan Anda"</p>
+                            <div class="social-media">
+                                <span class="social-icon">📱</span>
+                                <span class="social-icon">📸</span>
+                                <span class="social-icon">🎵</span>
+                                <span class="social-icon">📹</span>
+                            </div>
+                            <button class="btn" id="restartBtn">🔄 Kembali ke Halaman Awal</button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <!-- Slide Navigasi -->
+        <div class="slide-dots">
+            <span class="dot active" data-slide="1"></span>
+            <span class="dot" data-slide="2"></span>
+            <span class="dot" data-slide="3"></span>
+            <span class="dot" data-slide="4"></span>
+            <span class="dot" data-slide="5"></span>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
